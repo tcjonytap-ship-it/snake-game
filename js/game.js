@@ -3,10 +3,10 @@
 // ─── Constants ────────────────────────────────────────────────────────────────
 const COLS = 20;
 const ROWS = 20;
-const BASE_INTERVAL = 150; // ms per tick at level 1
-const SPEED_STEP = 8;      // ms reduction per level
-const MIN_INTERVAL = 60;   // fastest tick
-const FOODS_PER_LEVEL = 5;
+const BASE_INTERVAL = 220; // ms per tick at level 1 (slow, easy start)
+const SPEED_STEP = 5;      // ms reduction per level (gradual ramp)
+const MIN_INTERVAL = 55;   // fastest tick (only reached around level 34)
+const FOODS_PER_LEVEL = 8; // foods needed to advance a level
 const BONUS_LIFETIME = 10000; // ms bonus food lives
 const BONUS_INTERVAL = 25000; // ms between bonus spawns
 const HS_KEY = 'snakeHS';
@@ -121,17 +121,30 @@ const showScreen = (name) => {
 
 // ─── Canvas sizing ────────────────────────────────────────────────────────────
 let CELL;
+const isTouch = () => ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
 const resizeCanvas = () => {
-  const wrap = canvas.parentElement;
+  const touch = isTouch();
+  const landscape = window.innerWidth > window.innerHeight;
   const hudH = document.querySelector('.hud')?.offsetHeight || 50;
-  const dpadH = document.querySelector('.dpad')?.offsetHeight || 0;
-  const isMobile = window.innerWidth < 600;
-  const pad = isMobile ? 20 : 40;
-  const available = Math.min(
-    window.innerWidth - pad,
-    window.innerHeight - hudH - dpadH - (isMobile ? 100 : 60)
-  );
-  const size = Math.max(200, Math.min(500, available));
+
+  let available;
+  if (touch && landscape && window.innerHeight < 500) {
+    // Landscape phone: dpad sits beside canvas, compute remaining width
+    const dpadW = 50 * 3 + 6 * 2 + 32; // 3 cols × 50px + gaps + margin
+    const availW = window.innerWidth - dpadW - 16;
+    const availH = window.innerHeight - hudH - 20;
+    available = Math.min(availW, availH);
+  } else {
+    const dpadEl = document.querySelector('.dpad');
+    const dpadH = touch ? ((dpadEl?.offsetHeight || 0) + 12) : 0;
+    const pad = touch ? 16 : 40;
+    available = Math.min(
+      window.innerWidth - pad,
+      window.innerHeight - hudH - dpadH - (touch ? 60 : 60)
+    );
+  }
+
+  const size = Math.max(180, Math.min(500, available));
   CELL = Math.floor(size / COLS);
   canvas.width = CELL * COLS;
   canvas.height = CELL * ROWS;

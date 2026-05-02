@@ -34,6 +34,7 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
 }
 
 /* ===== Screens ===== */
@@ -329,16 +330,41 @@ h1, h2 {
 }
 
 /* ===== Responsive ===== */
-@media (max-height: 700px) {
-  .dpad { grid-template-columns: repeat(3, 56px); grid-template-rows: repeat(3, 56px); gap: 8px; }
+
+/* Hide D-pad on devices with a real pointer (desktop/laptop with mouse) */
+@media (hover: hover) and (pointer: fine) {
+  .dpad { display: none; }
+}
+
+/* Short portrait phones — shrink dpad so canvas gets more room */
+@media (pointer: coarse) and (max-height: 700px) and (orientation: portrait) {
+  .dpad { grid-template-columns: repeat(3, 56px); grid-template-rows: repeat(3, 56px); gap: 8px; margin-top: 8px; }
   .dpad-btn { width: 56px; height: 56px; font-size: 20px; }
   .hud { padding: 6px 10px; }
   .hud-value { font-size: 16px; }
   #screen-game { padding-top: 6px; gap: 4px; }
 }
 
-@media (min-width: 600px) {
-  .dpad { display: none; }
+/* Landscape phone — dpad sits beside canvas */
+@media (pointer: coarse) and (max-height: 500px) {
+  #screen-game {
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 6px 8px 0;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+  }
+  .hud { order: -1; flex: 0 0 100%; margin-bottom: 0; padding: 4px 10px; }
+  .hud-value { font-size: 15px; }
+  .canvas-wrap { flex-shrink: 0; }
+  .dpad {
+    margin-top: 0;
+    grid-template-columns: repeat(3, 50px);
+    grid-template-rows: repeat(3, 50px);
+    gap: 6px;
+  }
+  .dpad-btn { width: 50px; height: 50px; font-size: 18px; }
 }
 
 /* ===== Level-up flash ===== */
