@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="description" content="Snake Game — a fast, smooth, mobile-ready classic snake game with levels and score tracking." />
+  <meta name="theme-color" content="#0d0d1a" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Snake" />
+  <title>Snake Game</title>
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%230d0d1a'/><text y='24' x='4' font-size='24'>🐍</text></svg>" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- Start screen -->
+    <div id="screen-start" class="screen active">
+      <div class="logo">🐍</div>
+      <h1>SNAKE</h1>
+      <p class="subtitle">Classic reimagined</p>
+      <div class="hiscore-display" id="start-hiscore"></div>
+      <button class="btn-primary" id="btn-start">PLAY</button>
+      <div class="controls-hint">
+        <span>⌨️ Arrow / WASD</span>
+        <span>📱 Swipe</span>
+        <span>P = Pause</span>
+      </div>
+    </div>
+
+    <!-- Game screen -->
+    <div id="screen-game" class="screen">
+      <header class="hud">
+        <div class="hud-item">
+          <span class="hud-label">SCORE</span>
+          <span class="hud-value" id="hud-score">0</span>
+        </div>
+        <div class="hud-item">
+          <span class="hud-label">LEVEL</span>
+          <span class="hud-value" id="hud-level">1</span>
+        </div>
+        <div class="hud-item">
+          <span class="hud-label">BEST</span>
+          <span class="hud-value" id="hud-best">0</span>
+        </div>
+        <button class="btn-icon" id="btn-pause" aria-label="Pause">⏸</button>
+      </header>
+      <div class="canvas-wrap">
+        <canvas id="gameCanvas" role="img" aria-label="Snake game board"></canvas>
+        <div id="overlay-pause" class="overlay hidden">
+          <p class="overlay-title">PAUSED</p>
+          <button class="btn-primary" id="btn-resume">RESUME</button>
+          <button class="btn-secondary" id="btn-quit">QUIT</button>
+        </div>
+        <div id="overlay-countdown" class="overlay hidden">
+          <p class="overlay-title countdown-num" id="countdown-num">3</p>
+        </div>
+      </div>
+      <!-- Mobile D-Pad -->
+      <nav class="dpad" aria-label="Game controls">
+        <button class="dpad-btn dpad-up" data-dir="UP" aria-label="Up">▲</button>
+        <div class="dpad-row">
+          <button class="dpad-btn dpad-left" data-dir="LEFT" aria-label="Left">◀</button>
+          <div class="dpad-center"></div>
+          <button class="dpad-btn dpad-right" data-dir="RIGHT" aria-label="Right">▶</button>
+        </div>
+        <button class="dpad-btn dpad-down" data-dir="DOWN" aria-label="Down">▼</button>
+      </nav>
+    </div>
+
+    <!-- Game-over screen -->
+    <div id="screen-gameover" class="screen">
+      <div class="logo">💀</div>
+      <h2>GAME OVER</h2>
+      <div class="results">
+        <div class="result-row">
+          <span>Score</span><span id="go-score">0</span>
+        </div>
+        <div class="result-row">
+          <span>Level</span><span id="go-level">1</span>
+        </div>
+        <div class="result-row highlight" id="go-best-row">
+          <span>Best</span><span id="go-best">0</span>
+        </div>
+      </div>
+      <div id="go-newrecord" class="new-record hidden">🏆 NEW RECORD!</div>
+      <button class="btn-primary" id="btn-restart">PLAY AGAIN</button>
+      <button class="btn-secondary" id="btn-home">HOME</button>
+    </div>
+  </div>
+
+  <script src="/js/game.js"></script>
+</body>
+</html>

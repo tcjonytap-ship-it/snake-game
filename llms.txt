@@ -1,0 +1,57 @@
+# Snake Game — LLM Context
+
+## What this is
+A fully client-side Snake game built with vanilla HTML5, CSS3, and JavaScript (no frameworks, no dependencies). It runs entirely in the browser using Canvas API rendering and Web Audio API for sound.
+
+## Purpose
+Provide a fast, fun, accessible, and memory-efficient classic snake experience optimised for both desktop and mobile devices.
+
+## How it works
+
+### Game loop
+- Uses `requestAnimationFrame` for 60fps rendering.
+- Employs a **fixed-timestep accumulator** pattern (`tickAcc`) so snake movement speed is deterministic and consistent regardless of frame rate.
+- Tick interval starts at 150ms and decreases by 8ms per level (minimum 60ms).
+
+### Architecture
+- **Single module pattern** — all game logic lives in `/js/game.js` (~300 lines, zero dependencies).
+- **Object pooling** — particles are pre-allocated in a fixed array of 60 slots to avoid garbage collection pressure during play.
+- **State machine** — game states: `idle`, `countdown`, `playing`, `paused`, `dead`.
+- **Web Audio API** — sound effects are synthesised at runtime using oscillators; no audio files are loaded.
+- **LocalStorage** — used only to persist the high score (`snakeHS` key).
+
+### Files
+- `index.html` — semantic HTML5, no inline scripts or styles.
+- `css/style.css` — dark neon theme, responsive layout, CSS animations.
+- `js/game.js` — complete game logic (snake movement, collision, scoring, rendering, input, audio, particles).
+- `vercel.json` — Vercel configuration with strict security headers (CSP, HSTS, COOP, COEP, etc.).
+- `manifest.json` — PWA manifest for add-to-home-screen support.
+- `.github/workflows/deploy.yml` — GitHub Actions CI/CD pipeline deploying to Vercel on push to `main`.
+
+### Game rules
+- Snake moves on a 20×20 grid.
+- Eating regular food (green) scores `10 × level` points; snake grows by 1.
+- A golden bonus food appears every 25 seconds and lasts 10 seconds; eating it scores `50 × level`.
+- Every 5 foods eaten advances the level (speed increases).
+- Hitting a wall or the snake's own body ends the game.
+
+### Controls
+- **Desktop**: Arrow keys or WASD. `P` / `Escape` to pause.
+- **Mobile**: Swipe on the canvas, or on-screen D-pad buttons.
+
+### Security posture
+- Strict CSP with no `unsafe-inline` or `unsafe-eval` — all JS and CSS are external files.
+- HSTS with 2-year max-age and preload.
+- `X-Frame-Options: DENY` prevents clickjacking.
+- COOP/COEP headers isolate the origin.
+- No third-party requests, no analytics, no tracking.
+- No server-side logic — the entire game runs in the visitor's browser.
+
+## What this is NOT
+- Not a Next.js or React app.
+- Not connected to any database or API.
+- Not collecting any user data.
+- Not using cookies or any storage beyond `localStorage` for the high score.
+
+## Codebase entry point
+Open `index.html` in a browser. No build step required.

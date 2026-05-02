@@ -1,0 +1,17 @@
+{
+  "name": "Snake Game",
+  "short_name": "Snake",
+  "description": "Classic snake game with levels, score tracking and smooth animations.",
+  "start_url": "/",
+  "display": "fullscreen",
+  "orientation": "portrait-primary",
+  "background_color": "#0d0d1a",
+  "theme_color": "#0d0d1a",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' rx='32' fill='%230d0d1a'/><text y='150' x='20' font-size='140'>🐍</text></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    }
+  ]
+}
