@@ -235,26 +235,25 @@ h1, h2 {
 /* ===== D-Pad ===== */
 .dpad {
   display: grid;
-  grid-template-rows: auto auto auto;
-  align-items: center;
-  gap: 4px;
-  margin-top: 8px;
+  grid-template-columns: repeat(3, 68px);
+  grid-template-rows: repeat(3, 68px);
+  gap: 10px;
+  margin-top: 12px;
 }
 
-.dpad-row {
-  display: flex;
-  gap: 4px;
-  align-items: center;
-}
+.dpad-up    { grid-column: 2; grid-row: 1; }
+.dpad-left  { grid-column: 1; grid-row: 2; }
+.dpad-right { grid-column: 3; grid-row: 2; }
+.dpad-down  { grid-column: 2; grid-row: 3; }
 
 .dpad-btn {
-  width: 52px;
-  height: 52px;
+  width: 68px;
+  height: 68px;
   background: var(--bg2);
   border: 2px solid var(--border);
-  border-radius: 10px;
+  border-radius: 14px;
   color: var(--text);
-  font-size: 18px;
+  font-size: 24px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -262,8 +261,6 @@ h1, h2 {
   transition: background 0.1s, border-color 0.1s;
   -webkit-tap-highlight-color: transparent;
 }
-
-.dpad-center { width: 52px; height: 52px; }
 
 .dpad-btn:active, .dpad-btn.pressed {
   background: var(--primary-dim);
@@ -333,8 +330,8 @@ h1, h2 {
 
 /* ===== Responsive ===== */
 @media (max-height: 700px) {
-  .dpad-btn { width: 44px; height: 44px; font-size: 14px; }
-  .dpad-center { width: 44px; height: 44px; }
+  .dpad { grid-template-columns: repeat(3, 56px); grid-template-rows: repeat(3, 56px); gap: 8px; }
+  .dpad-btn { width: 56px; height: 56px; font-size: 20px; }
   .hud { padding: 6px 10px; }
   .hud-value { font-size: 16px; }
   #screen-game { padding-top: 6px; gap: 4px; }
